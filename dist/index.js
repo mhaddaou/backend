@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const userModel_1 = __importDefault(require("./Models/userModel"));
+const retUsers_1 = require("./outils/retUsers");
 const app = (0, express_1.default)();
 const port = 5000;
 mongoose_1.default.connect(`mongodb+srv://mhaddaou:iQ8Ij9h9GgfBNZeC@cluster0.baz83mq.mongodb.net/mern?retryWrites=true&w=majority`).then(() => {
@@ -31,7 +32,8 @@ app.get('/ping', (_req, res) => {
 // get all users
 app.get('/users', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const users = yield userModel_1.default.find();
-    res.json(users);
+    const ret = yield (0, retUsers_1.retUsers)(users);
+    res.json(ret);
 }));
 app.listen(port, () => {
     return console.log(`Server is listening on ${port}`);

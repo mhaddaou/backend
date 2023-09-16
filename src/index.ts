@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express'
 import mongoose from 'mongoose'
 import userModel from './Models/userModel'
+import { retUsers } from './outils/retUsers'
 const app = express()
 const port = 5000
 
@@ -22,7 +23,8 @@ app.get('/ping', (_req: Request, res: Response) => {
 // get all users
 app.get('/users', async (req : Request, res : Response) => {
     const users = await userModel.find();
-    res.json(users);
+    const ret = await retUsers(users);
+    res.json(ret);
 })
 
 app.listen(port, () => {
