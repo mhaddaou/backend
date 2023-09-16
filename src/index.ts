@@ -15,6 +15,7 @@ export const check = (req : Request) =>{
 const app = express()
 const port = 5000
 app.use(express.json());
+app.use(cors)
 doteenv.config();
 
 
@@ -45,25 +46,25 @@ app.post('/login', async(req : Request, res : Response) =>{
 })
 
 // to register new user
-app.post('/register', async(req :Request, res : Response) =>{
+// app.post('/register', async(req :Request, res : Response) =>{
     
-  const user = check(req) ;
-  res.setHeader('Content-Type', 'text/plain');
+//   const user = check(req) ;
+//   res.setHeader('Content-Type', 'text/plain');
 
   
-  const username = req.body.username;
-  const exist = await userModel.findOne({username})
-  if (exist)
-  return res.status(421).json({message : "username alredy exist"});
+//   const username = req.body.username;
+//   const exist = await userModel.findOne({username})
+//   if (exist)
+//   return res.status(421).json({message : "username alredy exist"});
 
-  if (!user)
-      return res.status(422).json({ message: "the password is not same" });
+//   if (!user)
+//       return res.status(422).json({ message: "the password is not same" });
   
-  const newUser = new userModel(user);
-  await newUser.save();
+//   const newUser = new userModel(user);
+//   await newUser.save();
   
-  res.json({message : "user created successfully"});
-});
+//   res.json({message : "user created successfully"});
+// });
 
 app.get('/', (_req: Request, res: Response) => {
   return res.send('Express Typescript on Vercel')

@@ -20,6 +20,7 @@ const retUsers_1 = require("./outils/retUsers");
 const dotenv_1 = __importDefault(require("dotenv"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const cors_1 = __importDefault(require("cors"));
 const check = (req) => {
     const { password, confirm, username, email } = req.body;
     const passhashed = bcrypt_1.default.hashSync(password, 10);
@@ -29,6 +30,7 @@ exports.check = check;
 const app = (0, express_1.default)();
 const port = 5000;
 app.use(express_1.default.json());
+app.use(cors_1.default);
 dotenv_1.default.config();
 mongoose_1.default.connect(`mongodb+srv://mhaddaou:iQ8Ij9h9GgfBNZeC@cluster0.baz83mq.mongodb.net/mern?retryWrites=true&w=majority`).then(() => {
     console.log('db connection established');
@@ -48,19 +50,19 @@ app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     return res.json({ token, userId: user._id });
 }));
 // to register new user
-app.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = (0, exports.check)(req);
-    res.setHeader('Content-Type', 'text/plain');
-    const username = req.body.username;
-    const exist = yield userModel_1.default.findOne({ username });
-    if (exist)
-        return res.status(421).json({ message: "username alredy exist" });
-    if (!user)
-        return res.status(422).json({ message: "the password is not same" });
-    const newUser = new userModel_1.default(user);
-    yield newUser.save();
-    res.json({ message: "user created successfully" });
-}));
+// app.post('/register', async(req :Request, res : Response) =>{
+//   const user = check(req) ;
+//   res.setHeader('Content-Type', 'text/plain');
+//   const username = req.body.username;
+//   const exist = await userModel.findOne({username})
+//   if (exist)
+//   return res.status(421).json({message : "username alredy exist"});
+//   if (!user)
+//       return res.status(422).json({ message: "the password is not same" });
+//   const newUser = new userModel(user);
+//   await newUser.save();
+//   res.json({message : "user created successfully"});
+// });
 app.get('/', (_req, res) => {
     return res.send('Express Typescript on Vercel');
 });
