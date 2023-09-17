@@ -16,6 +16,12 @@ app.use(cors());
 
 doteenv.config();
 
+const check = (req : Request) =>{
+    const {password, confirm, username, email} = req.body;
+    const passhashed = bcrypt.hashSync(password, 10);
+    return password === confirm ? {username, email, password : passhashed } : null;
+}
+
 
 mongoose.connect(`${process.env.Connect}`).then(() =>{
     console.log('db connection established')
@@ -61,6 +67,27 @@ app.post('/login', async(req : Request, res : Response) =>{
   return res.json({token, userId: user._id});
   
 })
+
+// to register new user
+app.post('/register', async(req :Request, res : Response) =>{
+    
+  const user = check(req) ;
+  res.setHeader('Content-Type', 'text/plain');
+
+  
+  const username = req.body.username;
+  const exist = await userModel.findOne({username})
+  if (exist)
+  return res.status(421).json({message : "username alredy exist"});
+
+  if (!user)
+      return res.status(422).json({ message: "the password is not same" });
+  
+  const newUser = new userModel(user);
+  await newUser.save();
+  
+  res.json({message : "user created successfully"});
+});
 
 app.listen(port, () => {
   return console.log(`Server is listening on ${port}`)
