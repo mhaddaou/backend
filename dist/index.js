@@ -17,11 +17,9 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const userModel_1 = __importDefault(require("./Models/userModel"));
 const retUsers_1 = require("./outils/retUsers");
 const dotenv_1 = __importDefault(require("dotenv"));
-const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
-const port = 5000;
+const port = 4000;
 app.use(express_1.default.json());
-app.use(cors_1.default);
 dotenv_1.default.config();
 mongoose_1.default.connect(`mongodb+srv://mhaddaou:iQ8Ij9h9GgfBNZeC@cluster0.baz83mq.mongodb.net/mern?retryWrites=true&w=majority`).then(() => {
     console.log('db connection established');
