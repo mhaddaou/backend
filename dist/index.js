@@ -19,11 +19,11 @@ const retUsers_1 = require("./outils/retUsers");
 const dotenv_1 = __importDefault(require("dotenv"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const cors_1 = __importDefault(require("cors"));
+// import cors from 'cors';
 const app = (0, express_1.default)();
 const port = 5000;
 app.use(express_1.default.json());
-app.use((0, cors_1.default)());
+// app.use(cors());
 dotenv_1.default.config();
 mongoose_1.default.connect(`mongodb+srv://mhaddaou:iQ8Ij9h9GgfBNZeC@cluster0.baz83mq.mongodb.net/mern?retryWrites=true&w=majority`).then(() => {
     console.log('db connection established');
