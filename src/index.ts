@@ -17,7 +17,7 @@ app.use(cors());
 doteenv.config();
 
 
-mongoose.connect(`mongodb+srv://mhaddaou:iQ8Ij9h9GgfBNZeC@cluster0.baz83mq.mongodb.net/mern?retryWrites=true&w=majority`).then(() =>{
+mongoose.connect(`${process.env.Connect}`).then(() =>{
     console.log('db connection established')
 }).catch((err) =>{
     console.log('db connection error ', err )
